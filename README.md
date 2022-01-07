@@ -15,6 +15,7 @@
 |Exercise       | GET  | /api/exercises/{id} | |
 |Exercise       | POST | /api/exercises      | | Exercise JSON |
 |Exercise       | PUT  | /api/exercises{id}  | | Exercise JSON |
+|Exercise       | DELETE | /api/exercises{id} | | |
 
 
 ## Technologies Used
