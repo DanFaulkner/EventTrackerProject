@@ -30,7 +30,7 @@ This project will track a users weight lifting progress. In the future it will d
 |Void      | DELETE | /api/weights{id} | | |
 
 when adding a weight the user and exercise details return null, however, if you get the weight with the id of the recently created weight it will return the details.
-I'm planning on fixing them in the front end.
+I'm planning on fixing this in the front end.
 
 
 
