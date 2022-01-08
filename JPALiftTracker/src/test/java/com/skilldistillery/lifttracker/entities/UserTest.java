@@ -14,11 +14,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ExerciseTest {
+class UserTest {
+
 	
 	private static EntityManagerFactory emf;
 	private EntityManager em;
-	private Exercise ex;
+	private User user;
 
 	
 	@BeforeAll
@@ -34,23 +35,26 @@ class ExerciseTest {
 	@BeforeEach
 	void setUp()throws Exception {
 		em = emf.createEntityManager();
-		ex = em.find(Exercise.class, 1);
+		user = em.find(User.class, 1);
 	}
 	
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
 	}
+	
 	@Test
-	void test_exercise_mapping() {
-		assertNotNull(ex);
-		assertEquals("dumbbell bicep curls", ex.getName());
+	void test_user_mapping() {
+		assertNotNull(user);
+		assertEquals("admin", user.getUsername());
+		assertEquals("admin", user.getPassword());
+		assertEquals("ad min", user.getName());
 	}
 	
 	@Test
-	void test_exercise_to_weight_mapping() {
-		assertNotNull(ex);
-		assertTrue(ex.getWeights().size() > 0);
+	void test_user_to_weights_mapping() {
+		assertNotNull(user);
+		assertTrue(user.getWeights().size() > 0);
 	}
 
 }

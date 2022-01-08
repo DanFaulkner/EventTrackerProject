@@ -15,70 +15,68 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skilldistillery.lifttracker.entities.Exercise;
-import com.skilldistillery.lifttracker.services.ExerciseService;
+import com.skilldistillery.lifttracker.entities.User;
+import com.skilldistillery.lifttracker.services.UserService;
 
 @RestController
 @RequestMapping("api")
-public class ExerciseController {
-
+public class UserController {
+	
 	@Autowired
-	private ExerciseService exerciseSvc;
+	private UserService userSvc;
 	
 	/*---------------------------------------------------------------------
-	 * get all exercises
+	 * get all users
 	 ---------------------------------------------------------------------*/
-
-	@GetMapping("exercises")
-	public List<Exercise> index() {
-		return exerciseSvc.getAllExercises();
+	
+	@GetMapping("users")
+	public List<User> index(){
+		return userSvc.getAllUsers();
 	}
 	
 	/*---------------------------------------------------------------------
-	 * get exercise by id
+	 * get user by id
 	 ---------------------------------------------------------------------*/
-
-	@GetMapping("exercises/{id}")
-	public Exercise getExerciseById(@PathVariable int id, HttpServletResponse res) {
-		Exercise exercise = exerciseSvc.getExerciseById(id);
-		if (exercise == null) {
+	
+	@GetMapping("users/{id}")
+	public User getUserById(@PathVariable int id, HttpServletResponse res) {
+		User user = userSvc.getUserById(id);
+		if(user == null) {
 			res.setStatus(400);
 		}
-		return exercise;
+		return user;
 	}
-
 	
 	/*---------------------------------------------------------------------
-	 * create an exercise
+	 * add user
 	 ---------------------------------------------------------------------*/
 	
-	@PostMapping("exercises")
-	public Exercise addExercise(@RequestBody Exercise exercise, HttpServletResponse res, HttpServletRequest req) {
+	@PostMapping("users")
+	public User addUser(@RequestBody User user, HttpServletResponse res, HttpServletRequest req) {
 		try {
-			exerciseSvc.addExercise(exercise);
+			userSvc.addUser(user);
 			res.setStatus(201);
 			StringBuffer url = req.getRequestURL();
-			url.append("/").append(exercise.getId());
+			url.append("/").append(user.getId());
 			res.setHeader("Location", url.toString());
-		} catch (Exception e) {
+		}catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("INVALID JSON");
 			res.setStatus(400);
-			exercise = null;
+			user = null;
 		}
-		return exercise;
+		return user;
 	}
-
 	
 	/*---------------------------------------------------------------------
-	 * edit an exercise
+	 * edit user
 	 ---------------------------------------------------------------------*/
 	
-	@PutMapping("exercises/{id}")
-	public Exercise editExercise(@PathVariable int id, @RequestBody Exercise exercise, HttpServletResponse res) {
+	@PutMapping("users/{id}")
+	public User editUser(@PathVariable int id, @RequestBody User user, HttpServletResponse res) {
 		try {
-			if (exerciseSvc.getExerciseById(id) != null) {
-				exerciseSvc.editExercise(id, exercise);
+			if (userSvc.getUserById(id) != null) {
+				userSvc.editUser(id, user);
 			} else {
 				res.setStatus(404);
 			}
@@ -86,18 +84,17 @@ public class ExerciseController {
 			e.printStackTrace();
 			res.setStatus(400);
 		}
-		return exercise;
+		return user;
 	}
-
 	
 	/*---------------------------------------------------------------------
-	 * delete an exercise
+	 * delete user
 	 ---------------------------------------------------------------------*/
 	
-	@DeleteMapping("exercises/{id}")
-	public void deleteExercise(@PathVariable int id, HttpServletResponse res) {
+	@DeleteMapping("users/{id}")
+	public void deleteUser(@PathVariable int id, HttpServletResponse res) {
 		try {
-		if(exerciseSvc.deleteExercise(id)) {
+		if(userSvc.deleteUser(id)) {
 			res.setStatus(204);
 		}else {
 			res.setStatus(404);

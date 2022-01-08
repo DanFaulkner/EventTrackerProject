@@ -5,67 +5,68 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skilldistillery.lifttracker.entities.Exercise;
-import com.skilldistillery.lifttracker.repositories.ExerciseRepository;
+import com.skilldistillery.lifttracker.entities.User;
+import com.skilldistillery.lifttracker.repositories.UserRepository;
 
 @Service
-public class ExerciseServiceImpl implements ExerciseService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private ExerciseRepository exerciseRepo;
+	private UserRepository userRepo;
 	
 	/*---------------------------------------------------------------------
-	 * get all exercises
+	 * get all users
 	 ---------------------------------------------------------------------*/
 
 	@Override
-	public List<Exercise> getAllExercises() {
-		return exerciseRepo.findAll();
+	public List<User> getAllUsers() {
+		return userRepo.findAll();
 	}
 
 	/*---------------------------------------------------------------------
-	 * get exercise by id
+	 * get user by id
 	 ---------------------------------------------------------------------*/
 	
 	@Override
-	public Exercise getExerciseById(int exerciseId) {
-		if (exerciseRepo.existsById(exerciseId)) {
-			return exerciseRepo.findById(exerciseId).get();
+	public User getUserById(int userId) {
+		if (userRepo.existsById(userId)) {
+			return userRepo.findById(userId).get();
+		} else {
+			return null;
+		}
+	}
+	
+	/*---------------------------------------------------------------------
+	 * add user
+	 ---------------------------------------------------------------------*/
+
+	@Override
+	public User addUser(User user) {
+		return userRepo.saveAndFlush(user);
+	}
+	
+	/*---------------------------------------------------------------------
+	 * edit user
+	 ---------------------------------------------------------------------*/
+
+	@Override
+	public User editUser(int id, User user) {
+		user.setId(id);
+		if (userRepo.existsById(id)) {
+			return userRepo.save(user);
 		}
 		return null;
 	}
-
-	/*---------------------------------------------------------------------
-	 * create an exercise
-	 ---------------------------------------------------------------------*/
-	
-	@Override
-	public Exercise addExercise(Exercise exercise) {
-		return exerciseRepo.saveAndFlush(exercise);
-	}
 	
 	/*---------------------------------------------------------------------
-	 * edit an exercise
+	 * delete user
 	 ---------------------------------------------------------------------*/
 
 	@Override
-	public Exercise editExercise(int id, Exercise exercise) {
-		exercise.setId(id);
-		if (exerciseRepo.existsById(id)) {
-			return exerciseRepo.save(exercise);
-		}
-		return null;
-	}
-	
-	/*---------------------------------------------------------------------
-	 * delete an exercise
-	 ---------------------------------------------------------------------*/
-
-	@Override
-	public boolean deleteExercise(int exerciseId) {
+	public boolean deleteUser(int userId) {
 		boolean deleted = false;
-		if (exerciseRepo.existsById(exerciseId)) {
-			exerciseRepo.deleteById(exerciseId);
+		if (userRepo.existsById(userId)) {
+			userRepo.deleteById(userId);
 			deleted = true;
 		}
 		return deleted;

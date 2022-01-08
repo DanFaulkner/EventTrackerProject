@@ -10,6 +10,6 @@ public interface ExerciseService {
 	List<Exercise> getAllExercises();
 	Exercise getExerciseById(int exerciseId);
 	Exercise addExercise(Exercise exercise);
-	Exercise editExercise(Exercise exercise);
+	Exercise editExercise(int id, Exercise exercise);
 	boolean deleteExercise(int exerciseId);
 }

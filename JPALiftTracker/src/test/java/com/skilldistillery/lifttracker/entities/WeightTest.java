@@ -2,7 +2,6 @@ package com.skilldistillery.lifttracker.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,11 +13,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ExerciseTest {
+class WeightTest {
 	
 	private static EntityManagerFactory emf;
 	private EntityManager em;
-	private Exercise ex;
+	private Weight weight;
 
 	
 	@BeforeAll
@@ -34,23 +33,32 @@ class ExerciseTest {
 	@BeforeEach
 	void setUp()throws Exception {
 		em = emf.createEntityManager();
-		ex = em.find(Exercise.class, 1);
+		weight = em.find(Weight.class, 1);
 	}
 	
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
 	}
+
 	@Test
-	void test_exercise_mapping() {
-		assertNotNull(ex);
-		assertEquals("dumbbell bicep curls", ex.getName());
+	void test_weight_mapping() {
+		assertNotNull(weight);
+		assertEquals(35, weight.getAmount());
+		assertEquals(2022, weight.getDate().getYear());
 	}
 	
-	@Test
-	void test_exercise_to_weight_mapping() {
-		assertNotNull(ex);
-		assertTrue(ex.getWeights().size() > 0);
+	@Test 
+	void test_weight_user_mapping(){
+		assertNotNull(weight);
+		assertEquals("admin", weight.getUser().getUsername());
+		assertEquals("admin", weight.getUser().getPassword());
+	}
+	
+	@Test 
+	void test_weight_exercise_mapping(){
+		assertNotNull(weight);
+		assertEquals("dumbbell bicep curls", weight.getExercise().getName());
 	}
 
 }

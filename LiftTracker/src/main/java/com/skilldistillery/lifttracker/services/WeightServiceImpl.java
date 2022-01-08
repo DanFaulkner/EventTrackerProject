@@ -5,67 +5,69 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skilldistillery.lifttracker.entities.Exercise;
-import com.skilldistillery.lifttracker.repositories.ExerciseRepository;
+import com.skilldistillery.lifttracker.entities.Weight;
+import com.skilldistillery.lifttracker.repositories.WeightRepository;
 
 @Service
-public class ExerciseServiceImpl implements ExerciseService {
+public class WeightServiceImpl implements WeightService {
 
 	@Autowired
-	private ExerciseRepository exerciseRepo;
-	
-	/*---------------------------------------------------------------------
-	 * get all exercises
-	 ---------------------------------------------------------------------*/
-
-	@Override
-	public List<Exercise> getAllExercises() {
-		return exerciseRepo.findAll();
-	}
+	private WeightRepository weightRepo;
 
 	/*---------------------------------------------------------------------
-	 * get exercise by id
+	 * find all weights
 	 ---------------------------------------------------------------------*/
 	
 	@Override
-	public Exercise getExerciseById(int exerciseId) {
-		if (exerciseRepo.existsById(exerciseId)) {
-			return exerciseRepo.findById(exerciseId).get();
-		}
-		return null;
-	}
-
-	/*---------------------------------------------------------------------
-	 * create an exercise
-	 ---------------------------------------------------------------------*/
-	
-	@Override
-	public Exercise addExercise(Exercise exercise) {
-		return exerciseRepo.saveAndFlush(exercise);
+	public List<Weight> getAllWeight() {
+		return weightRepo.findAll();
 	}
 	
 	/*---------------------------------------------------------------------
-	 * edit an exercise
+	 * get a weight by id
 	 ---------------------------------------------------------------------*/
 
 	@Override
-	public Exercise editExercise(int id, Exercise exercise) {
-		exercise.setId(id);
-		if (exerciseRepo.existsById(id)) {
-			return exerciseRepo.save(exercise);
+	public Weight getWeightById(int weightId) {
+		if (weightRepo.existsById(weightId)) {
+			return weightRepo.findById(weightId).get();
 		}
 		return null;
 	}
 	
 	/*---------------------------------------------------------------------
-	 * delete an exercise
+	 * add a weight
 	 ---------------------------------------------------------------------*/
 
 	@Override
-	public boolean deleteExercise(int exerciseId) {
+	public Weight addWeight(Weight weight) {
+		return weightRepo.saveAndFlush(weight);
+	}
+	
+	/*---------------------------------------------------------------------
+	 * edit a weight
+	 ---------------------------------------------------------------------*/
+
+	@Override
+	public Weight editWeight(int id, Weight weight) {
+		weight.setId(id);
+		weight.setDate(weightRepo.findById(id).get().getDate());
+		weight.setUser(weightRepo.findById(id).get().getUser());
+		weight.setExercise(weightRepo.findById(id).get().getExercise());
+		if(weightRepo.existsById(id)) {
+			return weightRepo.save(weight);
+		}
+		return null;
+	}
+
+	/*---------------------------------------------------------------------
+	 * delete a weight
+	 ---------------------------------------------------------------------*/
+	@Override
+	public boolean deleteWeight(int weightId) {
 		boolean deleted = false;
-		if (exerciseRepo.existsById(exerciseId)) {
-			exerciseRepo.deleteById(exerciseId);
+		if (weightRepo.existsById(weightId)) {
+			weightRepo.deleteById(weightId);
 			deleted = true;
 		}
 		return deleted;

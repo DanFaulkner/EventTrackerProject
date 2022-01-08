@@ -1,11 +1,15 @@
 package com.skilldistillery.lifttracker.entities;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
@@ -23,6 +27,11 @@ public class User {
 	private Integer height;
 	
 	private Integer weight;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List <Weight> weights;
+	
 	
 	/*---------------------------------------------------------------
 	 * Constructors
@@ -91,11 +100,20 @@ public class User {
 	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
+	
+	public List<Weight> getWeights() {
+		return weights;
+	}
+	
+	public void setWeights(List<Weight> weights) {
+		this.weights = weights;
+	}
 
 	/*---------------------------------------------------------------
 	 * Hashcode and Equals
 	 ---------------------------------------------------------------*/
 	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(height, id, name, password, username, weight);

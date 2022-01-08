@@ -15,32 +15,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skilldistillery.lifttracker.entities.Exercise;
-import com.skilldistillery.lifttracker.services.ExerciseService;
+import com.skilldistillery.lifttracker.entities.Weight;
+import com.skilldistillery.lifttracker.entities.Weight;
+import com.skilldistillery.lifttracker.services.WeightService;
 
 @RestController
 @RequestMapping("api")
-public class ExerciseController {
-
-	@Autowired
-	private ExerciseService exerciseSvc;
+public class WeightController {
 	
-	/*---------------------------------------------------------------------
-	 * get all exercises
-	 ---------------------------------------------------------------------*/
-
-	@GetMapping("exercises")
-	public List<Exercise> index() {
-		return exerciseSvc.getAllExercises();
+	@Autowired
+	private WeightService weightSvc;
+	
+	@GetMapping("weights")
+	public List<Weight> index() {
+		return weightSvc.getAllWeight();
 	}
 	
 	/*---------------------------------------------------------------------
-	 * get exercise by id
+	 * get weight by id
 	 ---------------------------------------------------------------------*/
 
-	@GetMapping("exercises/{id}")
-	public Exercise getExerciseById(@PathVariable int id, HttpServletResponse res) {
-		Exercise exercise = exerciseSvc.getExerciseById(id);
+	@GetMapping("weights/{id}")
+	public Weight getWeightById(@PathVariable int id, HttpServletResponse res) {
+		Weight exercise = weightSvc.getWeightById(id);
 		if (exercise == null) {
 			res.setStatus(400);
 		}
@@ -49,36 +46,37 @@ public class ExerciseController {
 
 	
 	/*---------------------------------------------------------------------
-	 * create an exercise
+	 * create an weight
 	 ---------------------------------------------------------------------*/
 	
-	@PostMapping("exercises")
-	public Exercise addExercise(@RequestBody Exercise exercise, HttpServletResponse res, HttpServletRequest req) {
+	@PostMapping("weights")
+	public Weight addWeights(@RequestBody Weight weight, HttpServletResponse res, HttpServletRequest req) {
+		Weight newWeight = new Weight();
 		try {
-			exerciseSvc.addExercise(exercise);
+			newWeight = weightSvc.addWeight(weight);
 			res.setStatus(201);
 			StringBuffer url = req.getRequestURL();
-			url.append("/").append(exercise.getId());
+			url.append("/").append(weight.getId());
 			res.setHeader("Location", url.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("INVALID JSON");
 			res.setStatus(400);
-			exercise = null;
+			newWeight = null;
 		}
-		return exercise;
+		return newWeight;
 	}
 
 	
 	/*---------------------------------------------------------------------
-	 * edit an exercise
+	 * edit an weight
 	 ---------------------------------------------------------------------*/
 	
-	@PutMapping("exercises/{id}")
-	public Exercise editExercise(@PathVariable int id, @RequestBody Exercise exercise, HttpServletResponse res) {
+	@PutMapping("weights/{id}")
+	public Weight editWeight(@PathVariable int id, @RequestBody Weight weight, HttpServletResponse res) {
 		try {
-			if (exerciseSvc.getExerciseById(id) != null) {
-				exerciseSvc.editExercise(id, exercise);
+			if (weightSvc.getWeightById(id) != null) {
+				weightSvc.editWeight(id, weight);
 			} else {
 				res.setStatus(404);
 			}
@@ -86,18 +84,18 @@ public class ExerciseController {
 			e.printStackTrace();
 			res.setStatus(400);
 		}
-		return exercise;
+		return weight;
 	}
 
 	
 	/*---------------------------------------------------------------------
-	 * delete an exercise
+	 * delete an weight
 	 ---------------------------------------------------------------------*/
 	
-	@DeleteMapping("exercises/{id}")
-	public void deleteExercise(@PathVariable int id, HttpServletResponse res) {
+	@DeleteMapping("weights/{id}")
+	public void deleteWeight(@PathVariable int id, HttpServletResponse res) {
 		try {
-		if(exerciseSvc.deleteExercise(id)) {
+		if(weightSvc.deleteWeight(id)) {
 			res.setStatus(204);
 		}else {
 			res.setStatus(404);

@@ -1,5 +1,6 @@
 package com.skilldistillery.lifttracker.entities;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -8,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class Weight {
@@ -25,6 +29,9 @@ public class Weight {
 	@ManyToOne
 	@JoinColumn(name = "exercise_id")
 	private Exercise exercise;
+	
+	@CreationTimestamp
+	private LocalDateTime date;
 	
 	/*---------------------------------------------------------------
 	 * Constructors
@@ -57,7 +64,31 @@ public class Weight {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public Exercise getExercise() {
+		return exercise;
+	}
+	
+	public void setExercise(Exercise exercise) {
+		this.exercise = exercise;
+	}
 
+	public LocalDateTime getDate() {
+		return date;
+	}
+	
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+	
 	/*---------------------------------------------------------------
 	 * Hascode and Equals
 	 ---------------------------------------------------------------*/

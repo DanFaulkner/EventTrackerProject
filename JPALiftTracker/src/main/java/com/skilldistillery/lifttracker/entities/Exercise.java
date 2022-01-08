@@ -21,6 +21,10 @@ public class Exercise {
 	
 	private String name;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "exercise")
+	private List<Weight> weights;
+	
 	/*---------------------------------------------------------------
 	 * Constructors
 	 ---------------------------------------------------------------*/
@@ -55,9 +59,18 @@ public class Exercise {
 		this.name = name;
 	}
 	
+	public List<Weight> getWeights() {
+		return weights;
+	}
+	
+	public void setWeights(List<Weight> weights) {
+		this.weights = weights;
+	}
+	
 	/*---------------------------------------------------------------
 	 * Hashcode and Equals
 	 ---------------------------------------------------------------*/
+
 
 	@Override
 	public boolean equals(Object obj) {
