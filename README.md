@@ -29,15 +29,14 @@ This project will track a users weight lifting progress. In the future it will d
 |Weight       | PUT  | /api/weights{id}  | | Weight JSON |
 |Void      | DELETE | /api/weights{id} | | |
 
-for some reason when adding a weight lifted the user and exercise details return null.
-However, if you get the weight with the id of the recently created weight it will return the details.
+when adding a weight the user and exercise details return null, however, if you get the weight with the id of the recently created weight it will return the details.
 I'm planning on fixing them in the front end.
 
 
 
 ## Technologies Used
 Java 1.8, JUnit 5, SpringMVC, Spring Boot, Spring Tool Suite, GitHub, Gradle,
-Git terminal, MAC OS, JPava Persistence API & Hibernate.
+Git terminal, MAC OS, Java Persistence API & Hibernate.
 
 
 ## Lessons Learned
